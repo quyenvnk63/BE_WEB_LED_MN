@@ -6,12 +6,12 @@ import BaseService from './baseService';
 
 require('dotenv').config();
 
-class UserService extends BaseService<User> {
+class UserService extends BaseService<any> {
   constructor() {
     super(User);
   }
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  async getUserByEmail(email: string): Promise<any | null> {
     try {
       const options: FindOptions = {
         where: { email },
@@ -24,7 +24,7 @@ class UserService extends BaseService<User> {
       const user = await User.findOne(options);
       return user;
     } catch (error) {
-      throw error;
+      throw new Error;
     }
   }
 

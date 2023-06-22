@@ -66,18 +66,19 @@ var UserService = /** @class */ (function (_super) {
     }
     UserService.prototype.getUserByEmail = function (email) {
         return __awaiter(this, void 0, void 0, function () {
-            var user, error_1;
+            var options, user, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, relations_1.User.findOne({
-                                where: { email: email },
-                                include: {
-                                    model: relations_1.Role,
-                                    through: { attributes: [] },
-                                },
-                            })];
+                        options = {
+                            where: { email: email },
+                            include: {
+                                model: relations_1.Role,
+                                through: { attributes: [] },
+                            },
+                        };
+                        return [4 /*yield*/, relations_1.User.findOne(options)];
                     case 1:
                         user = _a.sent();
                         return [2 /*return*/, user];

@@ -51,7 +51,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDepartmentsByUserId = exports.removeRoleFromUser = exports.assignRoleToUser = exports.deleteUser = exports.updateUser = exports.getAllUsers = exports.getUserById = exports.createUser = void 0;
-// import { Request, Response } from 'express';
 var express_validator_1 = require("express-validator");
 var userService_1 = __importDefault(require("../services/userService"));
 var departmentService_1 = __importDefault(require("../services/departmentService"));

@@ -78,7 +78,7 @@ async function getDepartmentsByUserId(userId) {
   }
   
   // UPDATE
-  async function updateDepartment(department_id, department_id) {
+  async function updateDepartment(department_id) {
     try {
       const department = await DepartmentUser.findByPk(department_id);
       if (department) {

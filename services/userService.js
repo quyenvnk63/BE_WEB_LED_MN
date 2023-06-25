@@ -13,7 +13,7 @@ async function getUserByEmail(email) {
       where: { email },
       include: {
         model: Role,
-        through: { attributes: [] }, // Đảm bảo không lấy thông tin liên quan đến bảng trung gian
+        through: { attributes: [] }, 
       },
     });
 

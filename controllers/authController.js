@@ -18,13 +18,13 @@
         const user = await userService.getUserByEmail(email);
 
         if (!user) {
-          return res.status(401).json({ message: 'Invalid credentials' });
+          return res.status(401).json({ message: 'user not exist ' });
         }
 
         const isPasswordValid = await comparePasswords(password, user.password);
 
         if (!isPasswordValid) {
-          return res.status(401).json({ message: 'Invalid credentials' });
+          return res.status(401).json({ message: 'passwords is wrong' });
         }
 
         // Thực hiện xác thực thành công, tạo và trả về token

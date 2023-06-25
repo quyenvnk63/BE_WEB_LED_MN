@@ -1,3 +1,53 @@
-const LedPanel = require('../models/LedPanel');
+const {LedPanel} = require('../models/relations');
 
-// async function 
+async function getAllLedPanels() {
+  try {
+    const ledPanels = await LedPanel.findAll();
+    return ledPanels;
+  } catch (error) {
+    throw new Error('Failed to fetch LED panels');
+  }
+}
+
+async function createLedPanel(data) {
+  try {
+    console.log(data);
+    const ledPanel = await LedPanel.create(data);
+    return ledPanel;
+  } catch (error) {
+    throw new Error('Failed to create LED panel');
+  }
+}
+
+async function updateLedPanel(id, data) {
+  try {
+    const ledPanel = await LedPanel.findByPk(id);
+    if (!ledPanel) {
+      throw new Error('LED panel not found');
+    }
+    await ledPanel.update(data);
+    return ledPanel;
+  } catch (error) {
+    throw new Error('Failed to update LED panel');
+  }
+}
+
+async function deleteLedPanel(id) {
+  try {
+    const ledPanel = await LedPanel.findByPk(id);
+    if (!ledPanel) {
+      throw new Error('LED panel not found');
+    }
+    await ledPanel.destroy();
+    return 'LED panel deleted successfully';
+  } catch (error) {
+    throw new Error('Failed to delete LED panel');
+  }
+}
+
+module.exports = {
+  getAllLedPanels,
+  createLedPanel,
+  updateLedPanel,
+  deleteLedPanel,
+};

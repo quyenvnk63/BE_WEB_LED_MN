@@ -1,14 +1,14 @@
 const userService = require('../services/userService');
 const departmentService = require('../services/departmentService');
 const roleService = require('../services/roleService');
-const { checkValidationResult } = require('../utils/validationResult');
+const { validateUserData } = require('../utils/validationResult');
 const { hashPassword } = require('../utils/passwordUtils');
 
 // CREATE
-async function createUser(req, res) {
-  await checkValidationResult(req);
+async function createUser(req, res,next) {
+  
   try {
-
+    // await validateUserData(req);
     //check user is existing
     const email = req.body.email;
     const check = await userService.getUserByEmail(email);
@@ -19,17 +19,16 @@ async function createUser(req, res) {
     
     const passwordHash = await hashPassword(req.body.password);
     const {department_id,role_id} = req.body;
-    const userData = { ...req.body, password:passwordHash};
+    const userData = { ...req.body, password:passwordHash };
     const user = await userService.createUser(userData);
     await departmentService.assignDepartmentToUser(user.id, department_id);
     await roleService.assignRoleToUser(user.id, role_id);
     res.status(201).json({
-      id: user.id,
-      email: user.email,
-      name: user.name,
+      user
     });
   } catch (error) {
     res.status(500).json({ error: error.message});
+    // next(error);
   }
 }
 
@@ -97,9 +96,10 @@ async function getAllUsers(req, res) {
 
 // UPDATE
 async function updateUser(req, res) {
-  await checkValidationResult(req);
+
 
   try {
+    await validateUserData(req.body);
     const userId = req.params.id;
     const userData = req.body;
     const user = await userService.updateUser(userId, userData);
@@ -111,8 +111,9 @@ async function updateUser(req, res) {
 
 // DELETE
 async function deleteUser(req, res) {
-  await checkValidationResult(req);
+
   try {
+    await validateUserData(req.body);
     const userId = req.params.id;
     const message = await userService.deleteUser(userId);
     res.json({ message });

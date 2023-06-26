@@ -27,7 +27,7 @@ async function validatePassword(password,hash) {
   return await bcrypt.compare(password, hash);
 }
 async function generateToken(userId) {
-  token = await jwt.sign({ userId },process.env.JWT , { expiresIn: '1h' });
+  token = await jwt.sign({ userId },'8hEnPGeoBqGUT6zksxt4G95gW+uMdzwe7EVaRnp0xRI=' , { expiresIn: '1h' });
   return token;
 }
 // CREAETE 

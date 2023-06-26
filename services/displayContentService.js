@@ -14,7 +14,7 @@ async function getPresignedUrl(contentType) {
   const ex = contentType.split("/")[1];
   const key = `${uuidv4()}.${ex}`;
   const params = {
-    Bucket: process.env.AWS_BUCKET,
+    Bucket: 'up-load-url',
     Key: key,
     ContentType: contentType,
     Expires: 600,

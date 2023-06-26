@@ -11,6 +11,7 @@ const userRouter = require('./routes/user');
 const departmentRouter = require('./routes/department');
 const roleRouter = require('./routes/role');
 const ledPanelRouter = require('./routes/ledPanel');
+const displayContentRouter = require('./routes/displayContent');
 
 
 
@@ -36,6 +37,7 @@ app.use('/api/users', userRouter);
 app.use('/api/departments',departmentRouter); 
 app.use('/api/roles',roleRouter);
 app.use('/api/led-panels',ledPanelRouter);
+app.use('/api/display-content',displayContentRouter);
 
 // Set up a basic route
 // Start the server

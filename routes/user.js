@@ -5,7 +5,7 @@ const { checkPermission } = require('../middlewares/checkPermission');
 
 router.post('/',checkPermission('create_user'),userController.createUser);
 router.get('/:id', checkPermission,userController.getUserById);
-router.get('/', checkPermission('read_all_user'),userController.getAllUsers);
+router.get('/',userController.getAllUsers);
 router.put('/:id',checkPermission('update_user'), userController.updateUser);
 router.delete('/:id',checkPermission('delete_user'), userController.deleteUser);
 
@@ -18,3 +18,6 @@ router.get('/:userId/departments', userController.getDepartmentsByUserId);
 
 
 module.exports = router;
+
+
+// , checkPermission('read_all_user')

@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 const s3 = new AWS.S3({
+  Bucket: 'up-load-url',
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_DEFAULT_REGION,
@@ -14,7 +15,6 @@ async function getPresignedUrl(contentType) {
   const ex = contentType.split("/")[1];
   const key = `${uuidv4()}.${ex}`;
   const params = {
-    Bucket: 'up-load-url',
     Key: key,
     ContentType: contentType,
     Expires: 600,

@@ -35,12 +35,14 @@ async function getDisplayContentById(req, res) {
 
 async function createDisplayContent(req, res) {
   const id = await uuidToInt();
+  const Led_panel_id = req.params.ledpanelId;
   const {  type, name, path } = req.body;
   const data = { id, type, name, path };
 
   try {
     
     const displayContent = await displayContentService.createDisplayContent(data);
+    await displayContentService.assignContentToDisplay(Led_panel_id, displayContent.id); 
     res.json(displayContent);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -67,6 +69,10 @@ async function deleteDisplayContent(req, res) {
   } catch (error) {
     res.status(500).json({ error: 'Internal server error' });
   }
+}
+
+async function setContentForDisplay(req, res) {
+  
 }
 
 

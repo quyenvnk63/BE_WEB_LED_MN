@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const {DisplayContent} = require('../models/relations');
+const {DisplayContent,LedPanelContent} = require('../models/relations');
 // const bucket  = 'up-load-url';
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -10,6 +10,24 @@ const s3 = new AWS.S3({
   s3ForcePathStyle: process.env.AWS_USE_PATH_STYLE_ENDPOINT === 'false',
   signatureVersion: 'v4'
 });
+
+
+//assgin content to display
+async function assignContentToDisplay(ledPanelId, displayContentId) {
+  try {
+    const content = await LedPanelContent.create({
+      led_panel_id: ledPanelId,
+      display_content_id: displayContentId,
+    });
+
+    console.log(ledPanelId, displayContentId);
+    return content;
+  } catch (error) {
+    throw new Error('Failed to assign content to display');
+  }
+}
+
+
 
 async function getPresignedUrl(contentType) {
   const ex = contentType.split("/")[1];
@@ -69,6 +87,28 @@ async function deleteDisplayContent(id) {
   return displayContent.destroy();
 }
 
+// set content on the display  
+async function setDisplayedContentForLedPanel(ledPanelId, displayContentId) {
+  try {
+    // Bước 1: Tìm và cập nhật is_displayed = false cho tất cả các bản ghi có cùng led_panel_id
+    await LedPanelContent.update(
+      { is_displayed: false },
+      { where: { led_panel_id: ledPanelId } }
+    );
+
+    // Bước 2: Cập nhật is_displayed = true cho bản ghi có display_content_id tương ứng
+    const [affectedCount] = await LedPanelContent.update(
+      { is_displayed: true },
+      { where: { led_panel_id: ledPanelId, display_content_id: displayContentId } }
+    );
+
+    if (affectedCount === 0) {
+      throw new Error('Failed to set displayed content for LedPanel');
+    }
+  } catch (error) {
+    throw new Error('Failed to set displayed content for LedPanel');
+  }
+}
 
 
 module.exports = {
@@ -78,4 +118,6 @@ module.exports = {
   createDisplayContent,
   updateDisplayContent,
   deleteDisplayContent,
+  assignContentToDisplay,
+  setDisplayedContentForLedPanel,
 };

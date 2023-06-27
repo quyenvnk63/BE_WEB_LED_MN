@@ -9,11 +9,13 @@ const LedPanelContent = sequelize.define('LedPanelContent', {
     },
     display_content_id: {
       type: DataTypes.BIGINT,
-      allowNull: false,
+      primaryKey: true,
+      
     },
     is_displayed: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     },
   }, {
     sequelize,

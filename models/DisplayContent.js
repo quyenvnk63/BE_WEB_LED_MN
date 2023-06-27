@@ -25,5 +25,15 @@ const DisplayContent = sequelize.define('DisplayContent', {
     tableName: 'display_contents',
     timestamps: false,
   });
+  // Hook sau khi xóa DisplayContent
+DisplayContent.afterDestroy(async (instance) => {
+  const displayContentId = instance.id;
+
+  // Xóa các bản ghi có display_content_id tương ứng trong bảng LedPanelContent
+  await LedPanelContent.destroy({
+    where: { display_content_id: displayContentId },
+  });
+});
+
 
 module.exports = DisplayContent;

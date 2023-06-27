@@ -1,66 +1,67 @@
 const { validationResult } = require('express-validator');
-// const { isString } = require('validator');
+const { isEmail, isString, isStrongPassword } = require('validator');
 
-async function checkValidationResult(data) {
-    const errors = validationResult(data);
+function validateLedPanelData() {
+  return [
+    (req, res, next) => {
+      const errors = [];
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+      if (typeof req.body.name !== 'string') {
+        errors.push('Name must be a string');
+      }
+
+      if (typeof req.body.address !== 'string') {
+        errors.push('Address must be a string');
+      }
+
+      if (typeof req.body.department_id !== 'number') {
+        errors.push('Department ID must be a number');
+      }
+
+      if (typeof req.body.device_code !== 'string') {
+        errors.push('Device code must be a string');
+      }
+
+      // Các quy tắc kiểm tra hợp lệ bổ sung cho các thuộc tính khác
+
+      if (errors.length > 0) {
+        return res.status(400).json({ errors });
+      }
+
+      next();
+    },
+  ];
 }
 
-function validateLedPanelData(data) {
-  const errors = [];
+function validateUserData() {
+  return [
+    (req, res, next) => {
+      const errors = [];
 
-  if (typeof data.name !== 'string') {
-    errors.push('Name must be a string');
-  }
+      if (!isEmail(req.body.email)) {
+        errors.push('Email must be a valid email address');
+      }
 
-  if (typeof data.address !== 'string') {
-    errors.push('Address must be a string');
-  }
+      if (!isString(req.body.name)) {
+        errors.push('Name must be a string');
+      }
 
-  if (typeof data.department_id !== 'number') {
-    errors.push('Department ID must be a number');
-  }
+      if (!isStrongPassword(req.body.password)) {
+        errors.push('Password must be a strong password');
+      }
 
-  if (typeof data.device_code !== 'string') {
-    errors.push('Device code must be a string');
-  }
+      // Additional validation rules for other properties
 
-  // Các quy tắc kiểm tra hợp lệ bổ sung cho các thuộc tính khác
+      if (errors.length > 0) {
+        return res.status(400).json({ errors });
+      }
 
-  if (errors.length > 0) {
-    throw new Error(`Invalid LED panel data: ${errors.join(', ')}`);
-  }
+      next();
+    },
+  ];
 }
 
-
-function validateUserData(data) {
-  const errors = [];
-
-  if (!isEmail(data.email)) {
-    errors.push('Email must be a valid email address');
-  }
-
-  if (!isString(data.name)) {
-    errors.push('Name must be a string');
-  }
-
-  if (!isStrongPassword(data.password)) {
-    errors.push('Password must be a strong password');
-  }
-
-  // Additional validation rules for other properties
-
-  if (errors.length > 0) {
-    throw new Error(`Invalid user data: ${errors.join(', ')}`);
-  }
-}
-
-
-module.exports ={
-    checkValidationResult,
-    validateLedPanelData,
-    validateUserData
-}
+module.exports = {
+  validateLedPanelData,
+  validateUserData,
+};

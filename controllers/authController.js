@@ -33,7 +33,8 @@
           id: user.id,
           email: user.email,
           name: user.name,
-          roles: user.Roles.map((role) => role.name),
+          role_id: user.Roles.length > 0 ? user.Roles[0].id : null,
+          roles: user.Roles ? user.Roles.map((role) => role.name) : [],
         };
         res
         .cookie("access_token", token, {

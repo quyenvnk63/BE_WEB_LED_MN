@@ -14,6 +14,7 @@ async function getUserByEmail(email) {
       include: {
         model: Role,
         through: { attributes: [] }, 
+        attributes: ['id', 'name'],
       },
     });
 

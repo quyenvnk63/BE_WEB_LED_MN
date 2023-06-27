@@ -1,4 +1,5 @@
 const displayContentService = require('../services/displayContentService');
+const {uuidToInt} = require('../utils/uuidInt');
 
 async function getPresignedUrl(req, res) {
   try {
@@ -34,7 +35,8 @@ async function getDisplayContentById(req, res) {
 
 async function createDisplayContent(req, res) {
   const { type, name, path } = req.body;
-  const data = { type, name, path };
+  id = uuidToInt();
+  const data = {id, type, name, path };
   try {
     const displayContent = await displayContentService.createDisplayContent(data);
     res.json(displayContent);

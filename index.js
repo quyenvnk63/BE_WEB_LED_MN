@@ -41,6 +41,6 @@ app.use('/api/display-content',displayContentRouter);
 
 // Set up a basic route
 // Start the server
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log('Server started on port 3000');
 });

@@ -34,14 +34,16 @@ async function getDisplayContentById(req, res) {
 }
 
 async function createDisplayContent(req, res) {
-  const { type, name, path } = req.body;
-  id = uuidToInt();
-  const data = {id, type, name, path };
+  const id = await uuidToInt();
+  const {  type, name, path } = req.body;
+  const data = { id, type, name, path };
+
   try {
+    
     const displayContent = await displayContentService.createDisplayContent(data);
     res.json(displayContent);
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message });
   }
 }
 

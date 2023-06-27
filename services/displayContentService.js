@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const DisplayContent = require('../models/relations');
+const {DisplayContent} = require('../models/relations');
 // const bucket  = 'up-load-url';
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -42,8 +42,9 @@ async function getDisplayContentById(id) {
 }
 
 async function createDisplayContent(data) {
-
-  try { const displayContent = DisplayContent.create(data);
+ 
+  try { 
+    const displayContent = DisplayContent.create(data);
     return displayContent;
     } catch (error) {
       throw new Error(' failed to create display contents');

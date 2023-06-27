@@ -6,6 +6,7 @@ const DisplayContent = sequelize.define('DisplayContent', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
+      autoIncrement: true,
     },
     type: {
       type: DataTypes.INTEGER,

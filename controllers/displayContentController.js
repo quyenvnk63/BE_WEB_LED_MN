@@ -71,10 +71,37 @@ async function deleteDisplayContent(req, res) {
   }
 }
 
-async function setContentForDisplay(req, res) {
-  
-}
+  async function setDisplayedContentForLedPanel(req, res) {
+        const  displayContentId= req.params.displayContentId;
+        const ledPanelId = req.body.ledPanelId;
 
+        try {
+          await displayContentService.setDisplayedContentForLedPanel(ledPanelId, displayContentId);
+          console.log('Displayed content has been set successfully.');
+          res.json({ message: 'Displayed content has been set successfully.' });
+        } catch (error) {
+          res.status(500).json({error: error.message});
+        }
+  }
+
+  async function getContentbyLedPanel(req, res) {
+    const ledPanelId = req.params.ledPanelId;
+    try {
+      const content = await displayContentService.getContentbyLedPanel(ledPanelId);
+  
+      // Extract the necessary data from the content
+      const extractedData = content.map((item) => {
+        return {
+          is_displayed: item.dataValues.is_displayed,
+          display_content: item.DisplayContent.dataValues,
+        };
+      });
+  
+      res.json(extractedData);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
 module.exports = {
   getPresignedUrl,
@@ -83,4 +110,6 @@ module.exports = {
   createDisplayContent,
   updateDisplayContent,
   deleteDisplayContent,
+  setDisplayedContentForLedPanel,
+  getContentbyLedPanel,
 };

@@ -110,6 +110,27 @@ async function setDisplayedContentForLedPanel(ledPanelId, displayContentId) {
   }
 }
 
+async function getContentbyLedPanel(ledPanelId) {
+  try {
+    console.log(ledPanelId);
+    const ledPanelContents = await LedPanelContent.findAll({
+      where: { led_panel_id: ledPanelId },
+      include: [
+        {
+          model: DisplayContent,
+          attributes: ['id', 'type', 'name', 'path'], // Chỉ lấy các trường cần thiết từ bảng DisplayContent
+        },
+      ],
+      attributes: ['is_displayed'], // Chỉ lấy trường is_displayed từ bảng LedPanelContent
+    });
+    console.log(ledPanelContents)
+    return ledPanelContents;
+  } catch (error) {
+    throw new Error('Failed to fetch led panel contents');
+  }
+}
+
+
 
 module.exports = {
   getPresignedUrl,
@@ -120,4 +141,5 @@ module.exports = {
   deleteDisplayContent,
   assignContentToDisplay,
   setDisplayedContentForLedPanel,
+  getContentbyLedPanel, 
 };

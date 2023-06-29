@@ -47,7 +47,9 @@ async function createUser(userData) {
 // READ
 async function getUserById(userId) {
   try {
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] }
+    });
     return user;
   } catch (error) {
     throw new Error('Failed to get user');

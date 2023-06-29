@@ -78,7 +78,6 @@ async function getDepartmentsByUserId(req, res) {
 async function getUserById(req, res) {
   try {
     const userId = req.params.id;
-    console.log(userId);
     const user = await userService.getUserById(userId);
     res.json(user);
   } catch (error) {

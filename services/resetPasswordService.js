@@ -7,22 +7,31 @@ const {User, ResetPassword} = require('../models/relations');
 async function createResetPasswordToken(userId) {
   try {
     const token = await crypto.randomBytes(20).toString('hex');
-    
-    const id = uuidToInt()
+    const id = uuidToInt();
     console.log(id);
-    const resetPassword = await ResetPassword.create({
-      id:id,
-      user_id: userId,
-      token: token,
-      created_at: new Date(),
+    
+    const [resetPassword, created] = await ResetPassword.findOrCreate({
+      where: { user_id: userId },
+      defaults: {
+        id: id,
+        token: token,
+        created_at: new Date(),
+      }
     });
+
+    if (!created) {
+      // Bản ghi ResetPassword đã tồn tại, thực hiện cập nhật
+      resetPassword.token = token;
+      await resetPassword.save();
+    }
 
     console.log(resetPassword.token);
     return resetPassword.token;
   } catch (error) {
-    throw new Error('Failed to create reset password token');
+    throw new Error('Failed to create or update reset password token');
   }
 }
+
 // Microservice cho Reset Password
 async function verifyResetPasswordToken(token) {
   try {

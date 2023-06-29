@@ -135,7 +135,7 @@ async function getContentbyLedPanel(ledPanelId) {
       ],
       attributes: ['is_displayed'], // Chỉ lấy trường is_displayed từ bảng LedPanelContent
     });
-    console.log(ledPanelContents)
+    // console.log(ledPanelContents)
     return ledPanelContents;
   } catch (error) {
     throw new Error('Failed to fetch led panel contents');

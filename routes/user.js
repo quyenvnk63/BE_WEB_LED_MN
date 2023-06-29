@@ -4,7 +4,7 @@ const userController = require('../controllers/userController');
 const { checkPermission } = require('../middlewares/checkPermission');
 
 router.post('/',checkPermission('create_user'),userController.createUser);
-router.get('/:id', checkPermission,userController.getUserById);
+router.get('/:id',userController.getUserById);
 router.get('/',userController.getAllUsers);
 router.put('/:id',checkPermission('update_user'), userController.updateUser);
 router.delete('/:id',checkPermission('delete_user'), userController.deleteUser);

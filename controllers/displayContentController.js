@@ -1,6 +1,20 @@
 const displayContentService = require('../services/displayContentService');
 const {uuidToInt} = require('../utils/uuidInt');
 
+async function getUrlContent(req, res) {
+  try {
+    const { key } = req.params;
+
+    // Gọi hàm getPresignedUrl để lấy URL từ key
+    const { url } = await displayContentService.getUrlContent(key);
+
+    res.status(200).json({ url });
+  } catch (error) {
+    console.error('Failed to get presigned URL:', error);
+    res.status(500).json({ error: 'Failed to get presigned URL' });
+  }
+}
+
 async function getPresignedUrl(req, res) {
   try {
     const { contentType } = req.query;
@@ -112,4 +126,5 @@ module.exports = {
   deleteDisplayContent,
   setDisplayedContentForLedPanel,
   getContentbyLedPanel,
+  getUrlContent,
 };

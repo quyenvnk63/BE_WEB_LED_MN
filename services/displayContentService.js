@@ -12,6 +12,31 @@ const s3 = new AWS.S3({
 });
 
 
+async function getUrlContent(key){
+  const params = {
+    Bucket: 'up-load-url',
+    Key: key,
+    Expires: 600,
+  };
+  const signedUrl = await s3.getSignedUrlPromise('getObject', params);
+  return { url: signedUrl };
+}
+
+async function getPresignedUrl(contentType) {
+  const ex = contentType.split("/")[1];
+  const key = `${uuidv4()}.${ex}`;
+  const params = {
+    Bucket: 'up-load-url',
+    Key: key,
+    ContentType: contentType,
+    Expires: 600,
+  };
+  const signedUrl = await s3.getSignedUrlPromise('putObject', params);
+  return { key, url: signedUrl };
+}
+
+
+
 //assgin content to display
 async function assignContentToDisplay(ledPanelId, displayContentId) {
   try {
@@ -28,19 +53,6 @@ async function assignContentToDisplay(ledPanelId, displayContentId) {
 }
 
 
-
-async function getPresignedUrl(contentType) {
-  const ex = contentType.split("/")[1];
-  const key = `${uuidv4()}.${ex}`;
-  const params = {
-    Bucket: 'up-load-url',
-    Key: key,
-    ContentType: contentType,
-    Expires: 600,
-  };
-  const signedUrl = await s3.getSignedUrlPromise('putObject', params);
-  return { key, url: signedUrl };
-}
 
 async function getAllDisplayContents() {
   try { const displayContent = DisplayContent.findAll();
@@ -142,4 +154,5 @@ module.exports = {
   assignContentToDisplay,
   setDisplayedContentForLedPanel,
   getContentbyLedPanel, 
+  getUrlContent,
 };

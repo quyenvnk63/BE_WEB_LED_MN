@@ -58,7 +58,7 @@ async function getDepartmentById(req, res) {
 async function getAllDepartments(req, res) {
   try {
     const departments = await departmentService.getAllDepartment();
-    res.json({ departments });
+    res.json( departments );
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });

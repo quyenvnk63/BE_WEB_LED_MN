@@ -5,17 +5,17 @@ const { checkPermission } = require('../middlewares/checkPermission');
 const authenticateToken = require('../middlewares/authenticateToken');
 const { resetForgotPasswordController, resetPasswordController } = require('../controllers/resetPasswordController');
 
-router.post('/',checkPermission('create_user'),userController.createUser);
+router.post('/',authenticateToken,checkPermission('create_user'),userController.createUser);
 router.get('/:id',authenticateToken,userController.getUserById);
-router.get('/',userController.getAllUsers);
+router.get('/',authenticateToken,userController.getAllUsers);
 router.put('/:id',authenticateToken,checkPermission('update_user'), userController.updateUser);
-router.delete('/:id',checkPermission('delete_user'), userController.deleteUser);
+router.delete('/:id',authenticateToken,checkPermission('delete_user'), userController.deleteUser);
 
-router.post('/:id/assign-role', checkPermission('assign_role'),userController.assignRoleToUser);
-router.delete('/:id/remove-role', checkPermission('remove-role'),userController.removeRoleFromUser);
+router.post('/:id/assign-role',authenticateToken, checkPermission('assign_role'),userController.assignRoleToUser);
+router.delete('/:id/remove-role',authenticateToken, checkPermission('remove-role'),userController.removeRoleFromUser);
 
 // Lấy danh sách phòng ban của một người dùng theo userId
-router.get('/:userId/departments', userController.getDepartmentsByUserId);
+router.get('/:userId/departments',authenticateToken, userController.getDepartmentsByUserId);
 
 
 
@@ -25,7 +25,7 @@ router.get('/:userId/departments', userController.getDepartmentsByUserId);
 router.post('/forgot-password', resetForgotPasswordController);
 
 // Định tuyến cho Reset Password
-router.post('/reset-password', resetPasswordController);
+router.post('/reset-password',authenticateToken, resetPasswordController);
 
 
 module.exports = router;

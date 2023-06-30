@@ -11,14 +11,14 @@ router.post('/',departmentController.createDepartment);
 router.get('/:departmentId', authenticateToken,departmentController.getDepartmentById);
 
 // Lấy danh sách tất cả phòng ban
-router.get('/', departmentController.getAllDepartments);
+router.get('/',authenticateToken, departmentController.getAllDepartments);
 
 // Cập nhật thông tin phòng ban
-router.put('/:departmentId', departmentController.updateDepartment);
+router.put('/:departmentId',authenticateToken, departmentController.updateDepartment);
 
 // Xóa phòng ban
-router.delete('/:departmentId', departmentController.deleteDepartment);
+router.delete('/:departmentId',authenticateToken, departmentController.deleteDepartment);
 
-router.post('/:id/users',departmentController.assignDepartmentToUser);
+router.post('/:id/users',authenticateToken,departmentController.assignDepartmentToUser);
 
 module.exports = router;

@@ -19,6 +19,7 @@ const Department = sequelize.define('Department', {
   deleted_at: {
     type: DataTypes.DATE,
     allowNull: true,
+    defaultValue: null, 
   },
   created_at: {
     type: DataTypes.DATE,

@@ -12,7 +12,7 @@ async function authenticateToken(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT);
+    const decoded = jwt.verify(token, '8hEnPGeoBqGUT6zksxt4G95gW+uMdzwe7EVaRnp0xRI=');
     const user = await User.findByPk(decoded.userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

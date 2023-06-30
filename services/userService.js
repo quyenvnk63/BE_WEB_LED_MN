@@ -61,7 +61,7 @@ async function getAllUsers() {
     const users = await User.findAll();
     return users;
   } catch (error) {
-    throw new Error('Failed to get users');
+    throw new Error('Failed to get all users');
   }
 }
 

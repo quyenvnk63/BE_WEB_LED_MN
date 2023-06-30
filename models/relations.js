@@ -18,7 +18,7 @@ Role.belongsToMany(User, { through: UserRole, foreignKey: 'role_id' });
 Role.hasMany(RoleDetail, { foreignKey: 'role_id' });
 Department.hasMany(DepartmentUser, { foreignKey: 'department_id' });
 User.belongsToMany(Department, { through: DepartmentUser, foreignKey: 'user_id' });
-Department.belongsTo(Department, { foreignKey: 'parent_department_id', as: 'parent' });
+// Department.belongsTo(Department, { foreignKey: 'parent_department_id', as: 'parent' });
 ResetPassword.belongsTo(User, { foreignKey: 'user_id' });
 LedPanel.belongsTo(Department, { foreignKey: 'department_id' });
 LedPanelContent.belongsTo(LedPanel, { foreignKey: 'led_panel_id' });

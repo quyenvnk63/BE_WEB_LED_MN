@@ -41,5 +41,13 @@ const Department = sequelize.define('Department', {
   tableName: 'departments',
   timestamps: false,
 });
+// Department.sync()
+//   .then(() => {
+//     console.log('Department model synced with database.');
+//   })
+//   .catch((error) => {
+//     console.error('Failed to sync Department model with database:', error);
+//   });
+
 
 module.exports = Department;

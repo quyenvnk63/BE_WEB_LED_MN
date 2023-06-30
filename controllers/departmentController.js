@@ -54,14 +54,14 @@ async function getDepartmentById(req, res) {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+
 async function getAllDepartments(req, res) {
   try {
     const departments = await departmentService.getAllDepartment();
-
     res.json({ departments });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: error.message });
   }
 }
 

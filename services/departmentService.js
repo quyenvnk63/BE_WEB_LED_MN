@@ -61,7 +61,10 @@ async function getDepartmentsByUserId(userId) {
   // get department by department_id 
   async function getDepartmentById(department_id) {
     try {
-      const department = await DepartmentUser.findByPk(department_id);
+      const department = await Department.findByPk(department_id);
+      if (department == null){
+        console.log(2);
+      }
       return department;
     } catch (error) {
       throw new Error('Failed to get department');
@@ -70,7 +73,8 @@ async function getDepartmentsByUserId(userId) {
   //  get all department
   async function getAllDepartment() {
     try {
-      const department = await DepartmentUser.findAll();
+      console.log(1);
+      const department = await Department.findAll();
       return department;
     } catch (error) {
       throw new Error('Failed to get departments');
@@ -80,7 +84,7 @@ async function getDepartmentsByUserId(userId) {
   // UPDATE
   async function updateDepartment(department_id, department_id) {
     try {
-      const department = await DepartmentUser.findByPk(department_id);
+      const department = await Department.findByPk(department_id);
       if (department) {
         await department.update(department_id);
         return department;
@@ -94,7 +98,7 @@ async function getDepartmentsByUserId(userId) {
   // DELETE
   async function deleteUser(department_id) {
     try {
-      const department = await DepartmentUser.findByPk(department_id);
+      const department = await Department.findByPk(department_id);
       if (department) {
         await department.destroy();
         return 'Department deleted successfully';

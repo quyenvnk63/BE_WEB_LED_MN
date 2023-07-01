@@ -48,9 +48,21 @@ async function deleteLedPanel(req, res, next) {
   }
 }
 
+async function getLedPanelsByDepartmentId(req, res){
+  const { departmentId } = req.params;
+  try {
+    const ledPanels = await ledPanelService.getLedPanelsByDepartmentId(departmentId);
+    res.json(ledPanels);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to get LedPanels by Department ID' });
+  }
+};
+
 module.exports = {
   getAllLedPanels,
   createLedPanel,
   updateLedPanel,
   deleteLedPanel,
+  getLedPanelsByDepartmentId,
 };

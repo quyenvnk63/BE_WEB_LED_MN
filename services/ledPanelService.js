@@ -45,9 +45,22 @@ async function deleteLedPanel(id) {
   }
 }
 
+// Get LedPanels by Department ID
+async function getLedPanelsByDepartmentId(departmentId){
+  try {
+    const ledPanels = await LedPanel.findAll({
+      where: { department_id: departmentId },
+    });
+    return ledPanels;
+  } catch (error) {
+    throw new Error('Failed to get LedPanels by Department ID');
+  }
+};
+
 module.exports = {
   getAllLedPanels,
   createLedPanel,
   updateLedPanel,
   deleteLedPanel,
+  getLedPanelsByDepartmentId,
 };

@@ -1,4 +1,4 @@
-const {LedPanel} = require('../models/relations');
+const {LedPanel,LedPanelContent,DisplayContent} = require('../models/relations');
 
 async function getAllLedPanels() {
   try {
@@ -57,10 +57,34 @@ async function getLedPanelsByDepartmentId(departmentId){
   }
 };
 
+async function getLedPanelsByDepartment(departmentId) {
+  try {
+    const ledPanels = await LedPanel.findAll({
+      where: { department_id: departmentId },
+      include: [
+        {
+          model: LedPanelContent,
+          as: 'ledPanelContents',
+          where: { is_displayed: true },
+          include: [
+            {
+              model: DisplayContent,
+            },
+          ],
+        },
+      ],
+    });
+    return ledPanels;
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   getAllLedPanels,
   createLedPanel,
   updateLedPanel,
   deleteLedPanel,
   getLedPanelsByDepartmentId,
+  getLedPanelsByDepartment,
 };

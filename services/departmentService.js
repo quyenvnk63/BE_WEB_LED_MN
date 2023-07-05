@@ -96,7 +96,7 @@ async function getDepartmentsByUserId(userId) {
   }
   
   // DELETE
-  async function deleteUser(department_id) {
+  async function deleteDepartment(department_id) {
     try {
       const department = await Department.findByPk(department_id);
       if (department) {
@@ -115,6 +115,6 @@ module.exports = {
   getDepartmentById,
   getAllDepartment,
   updateDepartment,
-  deleteUser,
+  deleteDepartment,
   assignDepartmentToUser,
 };

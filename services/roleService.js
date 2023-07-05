@@ -2,16 +2,34 @@ const Role = require('../models/Role');
 const {UserRole} = require('../models/relations');
 
 async function assignRoleToUser(userId, roleId) {
-    try {
-      const userRole = await UserRole.create({
+  try {
+    // Xóa tất cả các vai trò hiện tại của người dùng
+    await UserRole.destroy({
+      where: {
+        user_id: userId,
+      }
+    });
+
+    // Tạo mới vai trò duy nhất cho người dùng
+    const [userRole, created] = await UserRole.findOrCreate({
+      where: {
         user_id: userId,
         role_id: roleId,
-      });
-  
-      return userRole;
-    } catch (error) {
-      throw error;
+      },
+      defaults: {
+        user_id: userId,
+        role_id: roleId,
+      }
+    });
+
+    if (!created) {
+      throw new Error('User already has a role');
     }
+
+    return userRole;
+  } catch (error) {
+    throw error;
+  }
   
   }
 

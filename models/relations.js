@@ -25,6 +25,8 @@ LedPanelContent.belongsTo(LedPanel, { foreignKey: 'led_panel_id' });
 LedPanelContent.belongsTo(DisplayContent, { foreignKey: 'display_content_id' });
 LedPanelContentHistory.belongsTo(LedPanel, { foreignKey: 'led_panel_id' });
 LedPanelContentHistory.belongsTo(DisplayContent, { foreignKey: 'display_content_id' });
+LedPanel.hasMany(LedPanelContent, { foreignKey: 'led_panel_id', as: 'ledPanelContents' });
+
 
 // Export các model
 module.exports = {

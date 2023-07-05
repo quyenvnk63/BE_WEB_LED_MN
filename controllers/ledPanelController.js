@@ -59,10 +59,12 @@ async function getLedPanelsByDepartmentId(req, res){
   }
 };
 
+
 module.exports = {
   getAllLedPanels,
   createLedPanel,
   updateLedPanel,
   deleteLedPanel,
   getLedPanelsByDepartmentId,
+  
 };

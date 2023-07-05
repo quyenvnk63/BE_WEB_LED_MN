@@ -21,4 +21,6 @@ router.delete('/:departmentId',authenticateToken, departmentController.deleteDep
 
 router.post('/:id/users',authenticateToken,departmentController.assignDepartmentToUser);
 
+router.get('/:departmentId/ledpanels',authenticateToken,departmentController.getLedPanelsByDepartment);
+
 module.exports = router;

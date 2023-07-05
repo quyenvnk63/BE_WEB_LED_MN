@@ -45,4 +45,5 @@ const LedPanel = sequelize.define('LedPanel', {
     timestamps: false,
   });
 
+  
 module.exports = LedPanel;

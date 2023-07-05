@@ -1,5 +1,6 @@
 const departmentService = require('../services/departmentService');
 const { validationResult } = require('express-validator');
+const ledPanelService = require('../services/ledPanelService');
 
 // Tạo một phòng ban mới
 async function createDepartment(req, res) {
@@ -100,6 +101,17 @@ async function deleteDepartment(req, res) {
   }
 }
 
+async function getLedPanelsByDepartment(req, res) {
+  const departmentId = req.params.departmentId;
+  console.log(departmentId);
+  try {
+    const ledPanels = await ledPanelService.getLedPanelsByDepartment(departmentId);
+    res.json(ledPanels);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
 
 
 
@@ -112,5 +124,6 @@ module.exports = {
   updateDepartment,
   deleteDepartment,
   assignDepartmentToUser,
+  getLedPanelsByDepartment,
   
 };

@@ -61,6 +61,7 @@ async function getLedPanelsByDepartment(departmentId) {
   try {
     const ledPanels = await LedPanel.findAll({
       where: { department_id: departmentId },
+      attributes: ['id', 'name', 'address','created_at','device_code'], // Chỉ định các thuộc tính LedPanel cần trả về
       include: [
         {
           model: LedPanelContent,
@@ -69,12 +70,28 @@ async function getLedPanelsByDepartment(departmentId) {
           include: [
             {
               model: DisplayContent,
+              attributes: ['id', 'name', 'path','type'], // Chỉ định các thuộc tính DisplayContent cần trả về
             },
           ],
         },
       ],
     });
-    return ledPanels;
+    const modifiedLedPanels = ledPanels.map((ledPanel) => {
+      const ledPanelContents = ledPanel.ledPanelContents.map((ledPanelContent) => {
+        return ledPanelContent.DisplayContent;
+      });
+
+      return {
+        id: ledPanel.id,
+        name: ledPanel.name,
+        address: ledPanel.address,
+        created_at:ledPanel.created_at,
+        device_code:ledPanel.device_code,
+        DisplayContent: ledPanelContents[0],
+      };
+    });
+
+    return modifiedLedPanels;
   } catch (error) {
     throw error;
   }

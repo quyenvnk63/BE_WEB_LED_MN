@@ -82,11 +82,11 @@ async function getDepartmentsByUserId(userId) {
   }
   
   // UPDATE
-  async function updateDepartment(department_id, department_id) {
+  async function updateDepartment(department_id, updatedDepartmentData) {
     try {
       const department = await Department.findByPk(department_id);
       if (department) {
-        await department.update(department_id);
+        await department.update(updatedDepartmentData);
         return department;
       }
       throw new Error('Department not found');
@@ -100,6 +100,7 @@ async function getDepartmentsByUserId(userId) {
     try {
       const department = await Department.findByPk(department_id);
       if (department) {
+        updatedData.updated_at = new Date();
         await department.destroy();
         return 'Department deleted successfully';
       }

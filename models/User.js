@@ -45,4 +45,8 @@ const User = sequelize.define('User', {
   timestamps: false,
 });
 
+User.beforeUpdate((user, options) => {
+  User.updated_at = new Date();
+});
+
 module.exports = User;

@@ -48,6 +48,9 @@ const Department = sequelize.define('Department', {
 //   .catch((error) => {
 //     console.error('Failed to sync Department model with database:', error);
 //   });
+Department.beforeUpdate((department, options) => {
+  department.updated_at = new Date();
+});
 
 
 module.exports = Department;

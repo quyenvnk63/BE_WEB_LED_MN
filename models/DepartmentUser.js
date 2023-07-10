@@ -43,4 +43,10 @@ const DepartmentUser = sequelize.define('DepartmentUser', {
     timestamps: false,
   });
 
+  DepartmentUser.beforeUpdate((departmentUser, options) => {
+    departmentUser.updated_at = new Date();
+  });
+
+  
+
 module.exports = DepartmentUser;

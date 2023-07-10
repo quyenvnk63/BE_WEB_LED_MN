@@ -1,5 +1,5 @@
 
-const { DepartmentUser,Department } = require('../models/relations');
+const { DepartmentUser,Department,LedPanel } = require('../models/relations');
 
 async function createDepartment(departmentData) {
   try {
@@ -100,15 +100,17 @@ async function getDepartmentsByUserId(userId) {
     try {
       const department = await Department.findByPk(department_id);
       if (department) {
-        updatedData.updated_at = new Date();
+        department.updated_at = new Date();
         await department.destroy();
         return 'Department deleted successfully';
+      } else {
+        throw new Error('Department not found');
       }
-      throw new Error('Department not found');
     } catch (error) {
       throw new Error('Failed to delete department');
     }
   }
+  
 
 module.exports = {
   createDepartment,

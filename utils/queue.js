@@ -2,8 +2,7 @@ const Queue = require('bull');
 const { setDisplayedContentForLedPanelOverloaded } = require('../controllers/displayContentController');
 const { redisClient } = require('../config/redis');
 
-
-console.log(redisClient.connect());
+// console.log(redisClient.connect());
 // Create the Bull queue instance with the Redis client
 const scheduledContentQueue = new Queue('scheduled-content', {
   redis: {

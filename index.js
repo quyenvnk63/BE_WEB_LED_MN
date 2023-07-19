@@ -7,11 +7,9 @@ const {redisClient} = require('./config/redis');
 // const { createExampleDepartments } = require('./config/seeders/createData');
 
 //bull queue 
-const Queue = require('bull');
-const QueueMQ = require('bullmq');
-const { createBullBoard } = require('@bull-board/api');
-const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
-const { ExpressAdapter } = require('@bull-board/express');
+// const { createBullBoard } = require('@bull-board/api');
+// const { BullMQAdapter } = require('@bull-board/api/bullMQAdapter');
+// const { ExpressAdapter } = require('@bull-board/express');
 const {scheduledContentQueue} = require('./utils/queue');
 // const scheduledContentQueue = require('./controllers/scheduleController');
 
@@ -40,16 +38,16 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Set up BullBoard for monitoring queues
-const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath('/admin/queues');
+// const serverAdapter = new ExpressAdapter();
+// serverAdapter.setBasePath('/admin/queues');
 
 
-const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
-  queues: [new BullMQAdapter(scheduledContentQueue)], // Use BullMQAdapter for BullMQ queue
-  serverAdapter: serverAdapter,
-});
+// const { addQueue, removeQueue, setQueues, replaceQueues } = createBullBoard({
+//   queues: [new BullMQAdapter(scheduledContentQueue)], // Use BullMQAdapter for BullMQ queue
+//   serverAdapter: serverAdapter,
+// });
 
-app.use('/admin/queues', serverAdapter.getRouter());
+// app.use('/admin/queues', serverAdapter.getRouter());
 
 
 

@@ -14,7 +14,7 @@ const getAsync = promisify(redisClient.get).bind(redisClient);
 const setAsync = promisify(redisClient.set).bind(redisClient);
 
 // Event listeners for Redis client
-redisClient.connect();
+// redisClient.connect();
 redisClient.on('error', (error) => {
   console.error('Error connecting to Redis:', error);
 });

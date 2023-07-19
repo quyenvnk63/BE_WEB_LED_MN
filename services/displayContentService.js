@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const {DisplayContent,LedPanelContent} = require('../models/relations');
+const {DisplayContent,LedPanelContent, LedPanelContentHistory} = require('../models/relations');
 // const bucket  = 'up-load-url';
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -96,6 +96,25 @@ async function deleteDisplayContent(id) {
     throw new Error('DisplayContent not found');
   }
 
+  // Xóa file trên AWS S3
+  const filePath = displayContent.path; // Giả sử trường path chứa đường dẫn của file trên S3
+  if (filePath) {
+    const bucketName = 'up-load-url'; // Thay 'tên_bucket_của_bạn' bằng tên bucket AWS S3 của bạn
+    const key = filePath;
+
+    const params = {
+      Bucket: bucketName,
+      Key: key,
+    };
+
+    try {
+      await s3.deleteObject(params).promise();
+      console.log(`File ${filePath} đã được xóa khỏi S3.`);
+    } catch (err) {
+      console.error('Lỗi xóa file trên S3:', err);
+    }
+  }
+
   return displayContent.destroy();
 }
 
@@ -143,6 +162,10 @@ async function getContentbyLedPanel(ledPanelId) {
 }
 
 
+//schedule display content
+
+
+
 
 module.exports = {
   getPresignedUrl,
@@ -155,4 +178,5 @@ module.exports = {
   setDisplayedContentForLedPanel,
   getContentbyLedPanel, 
   getUrlContent,
+
 };

@@ -1,6 +1,7 @@
 const displayContentService = require('../services/displayContentService');
 const {uuidToInt} = require('../utils/uuidInt');
 
+
 async function getUrlContent(req, res) {
   try {
     const { key } = req.params;
@@ -98,6 +99,21 @@ async function deleteDisplayContent(req, res) {
         }
   }
 
+  //overloading 
+
+  async function setDisplayedContentForLedPanelOverloaded(ledPanelId, displayContentId) {
+    try {
+      await displayContentService.setDisplayedContentForLedPanel(ledPanelId, displayContentId);
+      console.log('Displayed content has been set successfully.');
+      // Không return res.json() trong hàm này, để xử lý kết quả trả về ở các controller sử dụng hàm này
+      return { success: true };
+    } catch (error) {
+      // Không return res.json() trong hàm này, để xử lý kết quả trả về ở các controller sử dụng hàm này
+      throw new Error(error.message);
+    }
+  }
+  
+
   async function getContentbyLedPanel(req, res) {
     const ledPanelId = req.params.ledPanelId;
     try {
@@ -117,6 +133,8 @@ async function deleteDisplayContent(req, res) {
     }
   }
 
+  
+
 module.exports = {
   getPresignedUrl,
   getAllDisplayContents,
@@ -127,4 +145,6 @@ module.exports = {
   setDisplayedContentForLedPanel,
   getContentbyLedPanel,
   getUrlContent,
+  setDisplayedContentForLedPanelOverloaded,
+
 };

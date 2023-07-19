@@ -10,8 +10,7 @@ const scheduledContentQueue = new Queue('scheduled-content', {
   },
 });
 
-// console.log(scheduledContentQueue);
-
+console.log(redisClient);
 // Process the job in the queue
 scheduledContentQueue.process(async (job) => {
   const { ledPanelId, displayContentId } = job.data;

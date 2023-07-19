@@ -3,6 +3,8 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 // Cấu hình kết nối cơ sở dữ liệu
+
+console.log(process.env.REDIS_HOST)
 const options = {
   host: process.env.DB_HOST || 'localhost',
   dialect: 'mysql',

@@ -98,22 +98,22 @@ async function deleteDisplayContent(id) {
   }
 
   // Xóa file trên AWS S3
-  const filePath = displayContent.path; // Giả sử trường path chứa đường dẫn của file trên S3
-  if (filePath) {
-    const bucketName = 'up-load-url'; // Thay 'tên_bucket_của_bạn' bằng tên bucket AWS S3 của bạn
-    const key = filePath;
+  // const filePath = displayContent.path; // Giả sử trường path chứa đường dẫn của file trên S3
+  // if (filePath) {
+  //   const bucketName = 'up-load-url'; // Thay 'tên_bucket_của_bạn' bằng tên bucket AWS S3 của bạn
+  //   const key = filePath;
 
-    const params = {
-      Bucket: bucketName,
-      Key: key,
-    };
+  //   const params = {
+  //     Bucket: bucketName,
+  //     Key: key,
+  //   };
 
   
-      await s3.deleteObject(params).promise();
-      console.log(`File ${filePath} đã được xóa khỏi S3.`);
+  //     await s3.deleteObject(params).promise();
+  //     console.log(`File ${filePath} đã được xóa khỏi S3.`);
       return displayContent.destroy();
     
-    }}catch (err) {
+    }catch (err) {
       throw new Error('can not delete display content');
     }
   }

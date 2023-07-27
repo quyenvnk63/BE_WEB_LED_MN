@@ -66,7 +66,7 @@ async function getLedPanelsByDepartment(departmentId) {
         {
           model: LedPanelContent,
           as: 'ledPanelContents',
-          where: { is_displayed: true },
+          // where: { is_displayed: true },
           include: [
             {
               model: DisplayContent,

@@ -91,6 +91,7 @@ async function updateDisplayContent(id, data) {
 }
 
 async function deleteDisplayContent(id) {
+  try { 
   const displayContent = await DisplayContent.findByPk(id);
   if (!displayContent) {
     throw new Error('DisplayContent not found');
@@ -107,16 +108,18 @@ async function deleteDisplayContent(id) {
       Key: key,
     };
 
-    try {
+  
       await s3.deleteObject(params).promise();
       console.log(`File ${filePath} đã được xóa khỏi S3.`);
-    } catch (err) {
-      console.error('Lỗi xóa file trên S3:', err);
+      return displayContent.destroy();
+    
+    }}catch (err) {
+      throw new Error('can not delete display content');
     }
   }
 
-  return displayContent.destroy();
-}
+  
+
 
 // set content on the display  
 async function setDisplayedContentForLedPanel(ledPanelId, displayContentId) {

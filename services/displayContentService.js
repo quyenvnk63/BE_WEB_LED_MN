@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const {DisplayContent,LedPanelContent, LedPanelContentHistory} = require('../models/relations');
+const {DisplayContent,LedPanelContent} = require('../models/relations');
 // const bucket  = 'up-load-url';
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -91,32 +91,49 @@ async function updateDisplayContent(id, data) {
 }
 
 async function deleteDisplayContent(id) {
-  try { 
-  const displayContent = await DisplayContent.findByPk(id);
-  if (!displayContent) {
-    throw new Error('DisplayContent not found');
-  }
-
-  // Xóa file trên AWS S3
-  // const filePath = displayContent.path; // Giả sử trường path chứa đường dẫn của file trên S3
-  // if (filePath) {
-  //   const bucketName = 'up-load-url'; // Thay 'tên_bucket_của_bạn' bằng tên bucket AWS S3 của bạn
-  //   const key = filePath;
-
-  //   const params = {
-  //     Bucket: bucketName,
-  //     Key: key,
-  //   };
-
-  
-  //     await s3.deleteObject(params).promise();
-  //     console.log(`File ${filePath} đã được xóa khỏi S3.`);
-      return displayContent.destroy();
-    
-    }catch (err) {
-      throw new Error('can not delete display content');
+  try {
+    // Find the DisplayContent instance by ID
+    const displayContent = await DisplayContent.findByPk(id);
+    if (!displayContent) {
+      throw new Error('DisplayContent not found');
     }
+
+    // // Check if the DisplayContent instance is associated with any LedPanelContentHistory records
+    // const associatedHistoryRecords = await LedPanelContentHistory.findAll({
+    //   where: { display_content_id: id },
+    // });
+
+    // if (associatedHistoryRecords.length > 0) {
+    //   // If there are associated history records, delete them first
+    //   await LedPanelContentHistory.destroy({ where: { display_content_id: id } });
+    // }
+
+    // Xóa file trên AWS S3
+    const filePath = displayContent.path; // Assuming you have the file path stored in the path attribute
+    if (filePath) {
+      // Code to delete the file from AWS S3
+      // Replace the following lines with your actual code to delete the file
+      const bucketName = 'up-load-url'; // Replace with your S3 bucket name
+      const key = filePath;
+
+      const params = {
+        Bucket: bucketName,
+        Key: key,
+      };
+
+      await s3.deleteObject(params).promise();
+      console.log(`File ${filePath} đã được xóa khỏi S3.`);
+    }
+
+    // Finally, delete the DisplayContent instance from the database
+    await displayContent.destroy();
+
+    console.log('DisplayContent deleted successfully');
+  } catch (error) {
+    console.error('Error deleting display content:', error.message);
+    throw new Error('Error deleting display content');
   }
+}
 
   
 

@@ -78,8 +78,10 @@ async function updateDisplayContent(req, res) {
 
 async function deleteDisplayContent(req, res) {
   const { id } = req.params;
+  // console.log(id);
   try {
     const deletedDisplayContent = await displayContentService.deleteDisplayContent(id);
+    console.log('Fetched DisplayContent:', deletedDisplayContent);
     if (!deletedDisplayContent) {
       // If the display content with the given ID was not found
       return res.status(404).json({ error: 'DisplayContent not found' });
@@ -87,7 +89,7 @@ async function deleteDisplayContent(req, res) {
     res.json({ message: 'DisplayContent deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json( error.message);
   }
 }
 

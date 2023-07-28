@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // const User = require('../models/User');
-const { Role,User } = require('../models/relations');
+const { Role,User,UserRole } = require('../models/relations');
 
 
 require('dotenv').config();
@@ -58,7 +58,16 @@ async function getUserById(userId) {
 
 async function getAllUsers() {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email','status'], // Specify the attributes for the User model
+      include: [
+        {
+          model: UserRole,
+          attributes: ['role_id'], // Specify the attributes for the UserRole model
+        },
+      ],
+    });
+
     return users;
   } catch (error) {
     throw new Error('Failed to get all users');

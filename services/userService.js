@@ -58,21 +58,23 @@ async function getUserById(userId) {
 
 async function getAllUsers() {
   try {
-    const users = await User.findAll({
-      attributes: ['id', 'name', 'email','status'], // Specify the attributes for the User model
+    const usersWithRoles = await User.findAll({
+      attributes: ['id', 'name', 'email', 'status'], // Specify the attributes for the User model
       include: [
         {
-          model: UserRole,
-          attributes: ['role_id'], // Specify the attributes for the UserRole model
+          model: Role,
+          attributes: ['id', 'name'], // Specify the attributes for the Role model
+          through: { attributes: [] }, // Exclude the UserRole attributes from the result
         },
       ],
     });
 
-    return users;
+    return usersWithRoles;
   } catch (error) {
-    throw new Error('Failed to get all users');
+    throw new Error('Failed to get all users with roles');
   }
 }
+
 
 // UPDATE
 async function updateUser(userId, userData) {

@@ -12,7 +12,7 @@ router.get('/',authenticateToken, displayContentController.getAllDisplayContents
 router.get('/:id',authenticateToken, displayContentController.getDisplayContentById);
 router.post('/:ledpanelId',authenticateToken, displayContentController.createDisplayContent);
 router.put('/:id',authenticateToken, displayContentController.updateDisplayContent);
-router.delete('/:id', displayContentController.deleteDisplayContent);
+router.delete('/:id',authenticateToken, displayContentController.deleteDisplayContent);
 router.post('/:displayContentId/led-panel',authenticateToken,displayContentController.setDisplayedContentForLedPanel);
 router.get('/led-panels/:ledPanelId',authenticateToken,displayContentController.getContentbyLedPanel);
 

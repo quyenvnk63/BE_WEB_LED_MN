@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { checkPermission } = require('../middlewares/checkPermission');
 const ledPanelController = require('../controllers/ledPanelController');
 const authenticateToken = require('../middlewares/authenticateToken');
 

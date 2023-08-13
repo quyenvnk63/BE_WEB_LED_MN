@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const UserRole = require('../models/UserRole');
- 
+
 require('dotenv').config();
 
 async function authenticateToken(req, res, next) {
@@ -18,19 +18,27 @@ async function authenticateToken(req, res, next) {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
-    const userRole  = await UserRole.findOne({
+
+    const userRole = await UserRole.findOne({
       where: {
         user_id: decoded.userId,
-      },});
-    
+      }
+    });
 
+    if (!userRole) {
+      return res.status(403).json({ error: 'User role not found' });
+    }
+
+    // Initialize req.user as an object if not already
+    req.user = {};
+
+    // Attach the role_id to req.user
     req.user.roleId = userRole.role_id;
+
     next();
   } catch (error) {
     return res.status(403).json({ error: 'Invalid token' });
   }
 }
 
-
 module.exports = authenticateToken;
-

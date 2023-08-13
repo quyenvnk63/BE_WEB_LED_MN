@@ -11,7 +11,7 @@ router.get('/',authenticateToken,userController.getAllUsers);
 router.put('/:id',authenticateToken,checkPermission('update_user'), userController.updateUser);
 router.delete('/:id',authenticateToken,checkPermission('delete_user'), userController.deleteUser);
 
-router.post('/:id/assign-role',authenticateToken.checkPermission('add_role'),userController.assignRoleToUser);
+router.post('/:id/assign-role',authenticateToken,checkPermission('add_role'),userController.assignRoleToUser);
 router.delete('/:id/remove-role',authenticateToken, checkPermission('remove-role'),userController.removeRoleFromUser);
 
 // Lấy danh sách phòng ban của một người dùng theo userId

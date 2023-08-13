@@ -3,7 +3,7 @@ const { Role, RoleDetail } = require('../models/relations');
 // Middleware to check permissions
 function checkPermission(actionCode) {
   return async function(req, res, next) {
-    const { roleId } = req.body;
+    const roleId = req.user.roleId;
 
     try {
       // Find the role based on the roleId

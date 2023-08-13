@@ -17,8 +17,13 @@ async function authenticateToken(req, res, next) {
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+    const userRole  = await UserRole.findOne({
+      where: {
+        user_id: decoded.userId,
+      },});
+    
 
-    req.user = user;
+    req.user.roleId = userRole.role_id;
     next();
   } catch (error) {
     return res.status(403).json({ error: 'Invalid token' });

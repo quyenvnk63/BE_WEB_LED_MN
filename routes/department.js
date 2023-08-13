@@ -4,9 +4,7 @@ const { checkPermission } = require('../middlewares/checkPermission');
 const departmentController = require('../controllers/departmentController');
 const authenticateToken = require('../middlewares/authenticateToken');
 // create a new department
-router.post('/',departmentController.createDepartment);
-
-
+router.post('/',authenticateToken,checkPermission('create_department') ,departmentController.createDepartment);
 
 // Lấy thông tin phòng ban bằng departmentId
 router.get('/:departmentId', authenticateToken,departmentController.getDepartmentById);

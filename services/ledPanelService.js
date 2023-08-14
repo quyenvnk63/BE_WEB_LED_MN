@@ -34,16 +34,24 @@ async function updateLedPanel(id, data) {
 
 async function deleteLedPanel(id) {
   try {
+    console.log('Deleting LED panel with ID:', id);
+
     const ledPanel = await LedPanel.findByPk(id);
+    console.log('LED panel found:', ledPanel);
+
     if (!ledPanel) {
       throw new Error('LED panel not found');
     }
+
     await ledPanel.destroy();
+    console.log('LED panel deleted successfully');
     return 'LED panel deleted successfully';
   } catch (error) {
+    console.log(error);
     throw new Error('Failed to delete LED panel');
   }
 }
+
 
 // Get LedPanels by Department ID
 async function getLedPanelsByDepartmentId(departmentId){

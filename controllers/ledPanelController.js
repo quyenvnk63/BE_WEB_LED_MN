@@ -41,7 +41,8 @@ async function updateLedPanel(req, res, next) {
 async function deleteLedPanel(req, res, next) {
   try {
     const { id } = req.params;
-    const message = await ledPanelService.deleteLedPanel(id);
+    const ledPanelId = parseInt(id, 10);
+    const message = await ledPanelService.deleteLedPanel(ledPanelId);
     res.json({ message }); 
   } catch (error) {
     res.status(500).json({ error: error.message});

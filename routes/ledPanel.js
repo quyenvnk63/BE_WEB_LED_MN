@@ -19,7 +19,5 @@ router.delete('/:id',authenticateToken, ledPanelController.deleteLedPanel);
 // Other routes
 router.get('/:departmentId',authenticateToken,ledPanelController.getLedPanelsByDepartmentId);
 
-module.exports = router;
-
 
 module.exports = router;
